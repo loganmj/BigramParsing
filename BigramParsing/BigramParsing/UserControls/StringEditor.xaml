@@ -9,6 +9,7 @@
       <Label Style="{StaticResource BP_Label_Style}">Enter Text:</Label>
       <TextBox Style="{StaticResource BP_TextBox_Style}"
                Width="450"
-               Height="300"/>
+               Height="300"
+               Text="{Binding TextContent, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=TwoWay}"/>
    </StackPanel>
 </UserControl>

@@ -19,6 +19,8 @@ namespace BigramParser
         #region Fields
 
         private IFileDialogService _fileDialogService;
+        private ITextFileParseService _fileParseService;
+        private IStringFilterService _stringFilterService;
 
         #endregion
 
@@ -37,6 +39,12 @@ namespace BigramParser
         private bool _stringInputTypeSelected;
 
         /// <summary>
+        /// The user input string value.
+        /// </summary>
+        [ObservableProperty]
+        private string _stringInput;
+
+        /// <summary>
         /// Is the file input type selected.
         /// </summary>
         [ObservableProperty]
@@ -48,6 +56,12 @@ namespace BigramParser
         [ObservableProperty]
         private string _selectedFilePath;
 
+        /// <summary>
+        /// The string retrieved from the user.
+        /// </summary>
+        [ObservableProperty]
+        private string _outputText;
+
         #endregion
 
         #region Constructors
@@ -55,13 +69,19 @@ namespace BigramParser
         /// <summary>
         /// Constructor
         /// </summary>
-        public MainWindowViewModel(IFileDialogService fileDialogService)
+        /// <param name="fileDialogService"></param>
+        /// <param name="fileParseService"></param>
+        public MainWindowViewModel(IFileDialogService fileDialogService, ITextFileParseService fileParseService, IStringFilterService stringFilterService)
         {
             _fileDialogService = fileDialogService;
+            _fileParseService = fileParseService;
+            _stringFilterService = stringFilterService;
             Title = "Bigram Parser";
             StringInputTypeSelected = true;
+            StringInput = string.Empty;
             FileInputTypeSelected = false;
             SelectedFilePath = SELECTED_FILE_PATH_PLACEHOLDER_VALUE;
+            OutputText = string.Empty;
         }
 
         #endregion
@@ -84,6 +104,26 @@ namespace BigramParser
             else
             {
                 SelectedFilePath = filePath;
+            }
+        }
+
+        /// <summary>
+        /// Processes the text input by the user.
+        /// </summary>
+        [RelayCommand]
+        private void Submit()
+        {
+            if (StringInputTypeSelected)
+            {
+                OutputText = _stringFilterService.RemoveNonAlphaCharacters(StringInput);
+            }
+            else if (FileInputTypeSelected)
+            {
+                // Parse the file
+                var fileContent = _fileParseService.Parse(SelectedFilePath);
+
+                // Filter and output the text
+                OutputText = _stringFilterService.RemoveNonAlphaCharacters(fileContent);
             }
         }
 
