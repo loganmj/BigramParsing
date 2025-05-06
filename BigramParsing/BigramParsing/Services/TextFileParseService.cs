@@ -15,7 +15,7 @@ namespace BigramParser.Services
         /// leaving letters, numbers, and spaces.
         /// </summary>
         /// <returns></returns>
-        [GeneratedRegex("[^a-zA-Z0-9 ]")]
+        [GeneratedRegex("[^a-zA-Z ]")]
         private static partial Regex AlphaNumericRegex();
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace BigramParser.Services
 
 
             // Remove all characters except letters, digits, and spaces
-            content = AlphaNumericRegex().Replace(content, "");
+            content = AlphaNumericRegex().Replace(content, " ");
 
             // Replace multiple spaces with a single space
             content = MultipleSpacesRegex().Replace(content, " ").Trim();
