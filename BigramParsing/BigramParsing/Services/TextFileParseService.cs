@@ -39,7 +39,7 @@ namespace BigramParser.Services
                 return string.Empty;
             }
 
-            // Parse the file and replace newline characters with spaces
+            // Parse the file
             return File.ReadAllText(filePath);
         }
 
