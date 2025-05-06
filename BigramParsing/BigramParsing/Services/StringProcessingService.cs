@@ -19,14 +19,11 @@ namespace BigramParser.Services
         [GeneratedRegex("[^a-zA-Z\\-\' ]")]
         private static partial Regex AlphaRegex();
 
-
-
         /// <summary>
         /// Matches apostrophes or hyphens that are at start/end of a word or surrounded by spaces.
         /// </summary>
         [GeneratedRegex(@"(?<![a-zA-Z])['\-]|'\-")]
         private static partial Regex LoneSpecialCharRegex();
-
 
         /// <summary>
         /// A regex filter that finds all instances of one or more successive space characters.
@@ -47,8 +44,6 @@ namespace BigramParser.Services
                 .Replace("\r\n", " ")
                 .Replace("\n", " ")
                 .Replace("\r", " ");
-
-
 
             // Remove all characters except letters, apostrophes, hyphens, and spaces
             filteredText = AlphaRegex().Replace(filteredText, " ");
@@ -106,8 +101,10 @@ namespace BigramParser.Services
                 Count = pair.Value
             }).ToList();
 
-            return result;
+            // Sort the results in descending order
+            result.Sort((DTO1, DTO2) => DTO2.CompareTo(DTO1));
 
+            return result;
         }
 
         #endregion
