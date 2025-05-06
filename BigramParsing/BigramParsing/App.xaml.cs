@@ -12,8 +12,8 @@ namespace BigramParser
         /// <summary>
         /// Performs necessary code at startup.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">The source of the startup event, typically the application instance.</param>
+        /// <param name="e">The event data containing information about the startup process.</param>
         public void OnStartup(object sender, StartupEventArgs e)
         {
             var mainWindowViewModel = new MainWindowViewModel();
