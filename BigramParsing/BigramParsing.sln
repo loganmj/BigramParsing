@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.13.35931.197 d17.13
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BigramParsing", "BigramParsing\BigramParsing.csproj", "{C8D5523D-3CA8-4664-9949-3A9467B04CB7}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{5076E450-2E3D-4C38-8B6B-27D65CD86852}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BigramParser", "BigramParsing\BigramParser.csproj", "{19157837-538E-43D3-B8AA-5933579F139C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,14 +13,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{C8D5523D-3CA8-4664-9949-3A9467B04CB7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C8D5523D-3CA8-4664-9949-3A9467B04CB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C8D5523D-3CA8-4664-9949-3A9467B04CB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C8D5523D-3CA8-4664-9949-3A9467B04CB7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5076E450-2E3D-4C38-8B6B-27D65CD86852}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5076E450-2E3D-4C38-8B6B-27D65CD86852}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5076E450-2E3D-4C38-8B6B-27D65CD86852}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5076E450-2E3D-4C38-8B6B-27D65CD86852}.Release|Any CPU.Build.0 = Release|Any CPU
+		{19157837-538E-43D3-B8AA-5933579F139C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19157837-538E-43D3-B8AA-5933579F139C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19157837-538E-43D3-B8AA-5933579F139C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19157837-538E-43D3-B8AA-5933579F139C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
