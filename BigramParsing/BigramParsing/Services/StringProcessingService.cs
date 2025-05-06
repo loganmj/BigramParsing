@@ -20,7 +20,14 @@ namespace BigramParser.Services
         private static partial Regex AlphaRegex();
 
         /// <summary>
-        /// Matches apostrophes or hyphens that are at start/end of a word or surrounded by spaces.
+        /// Matches apostrophes or hyphens that are at the start or end of a word, or surrounded by spaces.
+        /// 
+        /// Regex breakdown:
+        /// - (?<![a-zA-Z])['\-]: Matches an apostrophe or hyphen that is not preceded by a letter (start of a word).
+        /// - |: Alternation operator, allowing for multiple matching conditions.
+        /// - '\-: Matches an apostrophe followed immediately by a hyphen.
+        /// 
+        /// This ensures that standalone apostrophes or hyphens, or those improperly placed, are matched and can be removed.
         /// </summary>
         [GeneratedRegex(@"(?<![a-zA-Z])['\-]|'\-")]
         private static partial Regex LoneSpecialCharRegex();
