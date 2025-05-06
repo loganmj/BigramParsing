@@ -11,8 +11,32 @@
         MinHeight="450"
         MinWidth="500">
    <StackPanel HorizontalAlignment="Center">
-      <userControls:StringEditor Margin="5"/>
-      <userControls:FileSelector Margin="5"/>
+      <Border Style="{StaticResource BP_Component_Border_Style}">
+         <StackPanel>
+            <Label Style="{StaticResource BP_Label_Style}">Input Type:</Label>
+            <RadioButton Style="{StaticResource BP_RadioButton_Style}" 
+                   Content="String"
+                   GroupName="InputType"
+                   IsChecked="{Binding StringInputTypeSelected}"/>
+            <RadioButton Style="{StaticResource BP_RadioButton_Style}" 
+                   Content="File"
+                   GroupName="InputType"
+                   IsChecked="{Binding FileInputTypeSelected}"/>
+         </StackPanel>
+      </Border>
+
+      <!-- String editor -->
+      <Border Style="{StaticResource BP_Component_Border_Style}"
+              Visibility="{Binding StringInputTypeSelected, Converter={StaticResource BP_BooleanToVisiblityConverter}}">
+         <userControls:StringEditor Margin="5"/>
+      </Border>
+
+      <!-- File selector -->
+      <Border Style="{StaticResource BP_Component_Border_Style}"
+              Visibility="{Binding FileInputTypeSelected, Converter={StaticResource BP_BooleanToVisiblityConverter}}">
+         <userControls:FileSelector Margin="5"/>
+      </Border>
+
       <Button Style="{StaticResource BP_Button_Style}">Submit</Button>
     </StackPanel>
 </Window>

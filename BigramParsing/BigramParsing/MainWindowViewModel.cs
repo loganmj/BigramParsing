@@ -12,6 +12,12 @@ namespace BigramParser
         [ObservableProperty]
         private string _title;
 
+        [ObservableProperty]
+        private bool _stringInputTypeSelected;
+
+        [ObservableProperty]
+        private bool _fileInputTypeSelected;
+
         #endregion
 
         #region Constructors
@@ -22,6 +28,8 @@ namespace BigramParser
         public MainWindowViewModel()
         {
             Title = "Bigram Parser";
+            StringInputTypeSelected = true;
+            FileInputTypeSelected = false;
         }
 
         #endregion
