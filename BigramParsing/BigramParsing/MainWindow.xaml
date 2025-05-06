@@ -11,7 +11,8 @@
         MinHeight="450"
         MinWidth="500">
    <StackPanel HorizontalAlignment="Center">
-      <userControls:StringEditor/>
+      <userControls:StringEditor Margin="5"/>
+      <userControls:FileSelector Margin="5"/>
       <Button Style="{StaticResource BP_Button_Style}">Submit</Button>
     </StackPanel>
 </Window>
