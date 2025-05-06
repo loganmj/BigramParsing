@@ -13,7 +13,7 @@
         /// <param name="filter">A string specifying the file type filter for the dialog. 
         /// For example, use "*.txt" to allow selection of text files only, or 
         /// "Image Files|*.png;*.jpg|All Files|*.*" for multiple filters.</param>
-        /// <returns></returns>
+        /// <returns>A string representing the file path selected by the user, or an empty string if no file is selected.</returns>
         string SelectFile(string filter);
 
         #endregion
