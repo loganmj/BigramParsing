@@ -3,7 +3,7 @@
     /// <summary>
     /// Interface for a file parsing service.
     /// </summary>
-    public interface IFileParseService
+    public interface ITextFileParseService
     {
         #region Public Methods
 

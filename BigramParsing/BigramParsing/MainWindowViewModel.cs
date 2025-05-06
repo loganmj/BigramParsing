@@ -19,7 +19,7 @@ namespace BigramParser
         #region Fields
 
         private IFileDialogService _fileDialogService;
-        private IFileParseService _fileParseService;
+        private ITextFileParseService _fileParseService;
 
         #endregion
 
@@ -70,7 +70,7 @@ namespace BigramParser
         /// </summary>
         /// <param name="fileDialogService"></param>
         /// <param name="fileParseService"></param>
-        public MainWindowViewModel(IFileDialogService fileDialogService, IFileParseService fileParseService)
+        public MainWindowViewModel(IFileDialogService fileDialogService, ITextFileParseService fileParseService)
         {
             _fileDialogService = fileDialogService;
             _fileParseService = fileParseService;

@@ -6,7 +6,7 @@ namespace BigramParser.Services
     /// <summary>
     /// A service for parsing text files (.txt).
     /// </summary>
-    public partial class TextFileParseService : IFileParseService
+    public partial class TextFileParseService : ITextFileParseService
     {
         #region Regex
 
