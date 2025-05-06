@@ -19,6 +19,7 @@ namespace BigramParser
         #region Fields
 
         private IFileDialogService _fileDialogService;
+        private IFileParseService _fileParseService;
 
         #endregion
 
@@ -67,9 +68,12 @@ namespace BigramParser
         /// <summary>
         /// Constructor
         /// </summary>
-        public MainWindowViewModel(IFileDialogService fileDialogService)
+        /// <param name="fileDialogService"></param>
+        /// <param name="fileParseService"></param>
+        public MainWindowViewModel(IFileDialogService fileDialogService, IFileParseService fileParseService)
         {
             _fileDialogService = fileDialogService;
+            _fileParseService = fileParseService;
             Title = "Bigram Parser";
             StringInputTypeSelected = true;
             StringInput = string.Empty;
@@ -114,7 +118,7 @@ namespace BigramParser
             else if (FileInputTypeSelected)
             {
                 // TODO: Parse the file and output the text
-                OutputText = SelectedFilePath;
+                OutputText = _fileParseService.Parse(SelectedFilePath);
             }
         }
 

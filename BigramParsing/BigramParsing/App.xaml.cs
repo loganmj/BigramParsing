@@ -19,9 +19,10 @@ namespace BigramParser
         {
             // Build services
             var fileDialogService = new FileDialogService();
+            var fileParseService = new TextFileParseService();
 
             // Create main window
-            var mainWindowViewModel = new MainWindowViewModel(fileDialogService);
+            var mainWindowViewModel = new MainWindowViewModel(fileDialogService, fileParseService);
             var mainWindow = new MainWindow(mainWindowViewModel);
             mainWindow.Show();
         }
