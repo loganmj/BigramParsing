@@ -51,12 +51,11 @@
             <StackPanel>
                <Label Style="{StaticResource BP_Label_Style}">Output:</Label>
                <Border Style="{StaticResource BP_Component_Border_Style}">
-                  <ScrollViewer VerticalScrollBarVisibility="Auto">
-                     <TextBlock Style="{StaticResource BP_TextBlock_Style}"
+                  <ScrollViewer VerticalScrollBarVisibility="Auto"
                                 Width="450"
                                 Height="300">
-                        <Run Text="{Binding OutputText}"
-                             ScrollViewer.VerticalScrollBarVisibility="Auto"/>
+                     <TextBlock Style="{StaticResource BP_TextBlock_Style}">
+                        <Run Text="{Binding OutputText}"/>
                      </TextBlock>
                   </ScrollViewer>
                </Border>

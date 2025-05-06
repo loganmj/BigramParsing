@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using BigramParser.Data;
+using System.Text.RegularExpressions;
 
 namespace BigramParser.Services
 {
@@ -48,42 +49,50 @@ namespace BigramParser.Services
         }
 
         /// <inheritdoc/>
-        public List<string> CreateWordList(string text)
+        public List<WordPairCountDTO> CreateWordPairDistribution(string text)
         {
             // Validate inputs
-            if (string.IsNullOrEmpty(text))
+            if (string.IsNullOrWhiteSpace(text))
             {
                 return [];
             }
 
-            // Filter the text
-            var filteredText = RemoveNonAlphaCharacters(text);
+            // Filter the text, make it all lowercase
+            var filteredText = RemoveNonAlphaCharacters(text)
+                .ToLowerInvariant();
 
-            // Map the text to a list
-            return [.. filteredText.Split(' ')];
-        }
-
-        /// <inheritdoc/>
-        public List<string> CreateWordPairList(string text)
-        {
-            // Validate inputs
-            if (string.IsNullOrEmpty(text))
-            {
-                return [];
-            }
-
-            // Filter the text
-            var filteredText = RemoveNonAlphaCharacters(text);
-
-            // Split the text
+            // Split the text into words
             var words = filteredText.Split([' '], StringSplitOptions.RemoveEmptyEntries);
 
-            // Create word pairs
-            List<string> pairs = [.. words
-             .Take(words.Length - 1)
-             .Select((word, index) => $"{word} {words[index + 1]}")];
+            // Iterate through words to form pairs and count them
+            var pairCounts = new Dictionary<(string, string), int>();
 
-            return pairs;
+            for (int i = 0; i < words.Length - 1; i++)
+            {
+                var word1 = words[i];
+                var word2 = words[i + 1];
+                var pair = (word1, word2);
+
+                if (pairCounts.TryGetValue(pair, out int value))
+                {
+                    pairCounts[pair] = ++value;
+                }
+                else
+                {
+                    pairCounts.Add(pair, 1);
+                }
+            }
+
+            // Convert dictionary to list of DTOs
+            var result = pairCounts.Select(pair => new WordPairCountDTO
+            {
+                Word1 = pair.Key.Item1,
+                Word2 = pair.Key.Item2,
+                Count = pair.Value
+            }).ToList();
+
+            return result;
+
         }
 
         #endregion
