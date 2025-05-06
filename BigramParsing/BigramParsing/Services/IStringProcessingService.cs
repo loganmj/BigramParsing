@@ -1,4 +1,6 @@
-﻿namespace BigramParser.Services
+﻿using BigramParser.Data;
+
+namespace BigramParser.Services
 {
     /// <summary>
     /// An interface for a string processing service.
@@ -15,18 +17,12 @@
         string RemoveNonAlphaCharacters(string text);
 
         /// <summary>
-        /// Takes a string, filters out any non-alpha characters, and joins the remaining words into a list.
+        /// Creates a collection of word pair DTOs from a given string.
+        /// Each word pair DTO keeps track of how many times that word pair has appeared.
         /// </summary>
         /// <param name="text"></param>
-        /// <returns>A list of strings containing words from the given text.</returns>
-        List<string> CreateWordList(string text);
-
-        /// <summary>
-        /// Takes a string, filters out any non-alpha characters, and creates pairs of successive words, adding them to a list.
-        /// </summary>
-        /// <param name="text"></param>
-        /// <returns>A list of strings containing pairs of words from the given text.</returns>
-        List<string> CreateWordPairList(string text);
+        /// <returns>A collection of WordPairCountDTO objects.</returns>
+        List<WordPairCountDTO> CreateWordPairDistribution(string text);
 
         #endregion
     }

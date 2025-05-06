@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using BigramParser.Data;
+using System.Text.RegularExpressions;
 
 namespace BigramParser.Services
 {
@@ -14,8 +15,22 @@ namespace BigramParser.Services
         /// leaving only letters/words, and single spaces.
         /// </summary>
         /// <returns></returns>
-        [GeneratedRegex("[^a-zA-Z ]")]
+
+        [GeneratedRegex("[^a-zA-Z\\-\' ]")]
         private static partial Regex AlphaRegex();
+
+        /// <summary>
+        /// Matches apostrophes or hyphens that are at the start or end of a word, or surrounded by spaces.
+        /// 
+        /// Regex breakdown:
+        /// - (?<![a-zA-Z])['\-]: Matches an apostrophe or hyphen that is not preceded by a letter (start of a word).
+        /// - |: Alternation operator, allowing for multiple matching conditions.
+        /// - '\-: Matches an apostrophe followed immediately by a hyphen.
+        /// 
+        /// This ensures that standalone apostrophes or hyphens, or those improperly placed, are matched and can be removed.
+        /// </summary>
+        [GeneratedRegex(@"(?<![a-zA-Z])['\-]|'\-")]
+        private static partial Regex LoneSpecialCharRegex();
 
         /// <summary>
         /// A regex filter that finds all instances of one or more successive space characters.
@@ -37,53 +52,66 @@ namespace BigramParser.Services
                 .Replace("\n", " ")
                 .Replace("\r", " ");
 
+            // Remove all characters except letters, apostrophes, hyphens, and spaces
+            filteredText = AlphaRegex().Replace(filteredText, " ");
 
-            // Remove all characters except letters, digits, and spaces
-            filteredText = AlphaRegex().Replace(filteredText, " ");
+            // Remove apostrophes and hyphens not between letters
+            // This keeps contractions and compound words intact, but filters out floating special characters.
+            filteredText = LoneSpecialCharRegex().Replace(filteredText, " ");
 
-            // Replace multiple spaces with a single space
-            filteredText = MultipleSpacesRegex().Replace(filteredText, " ").Trim();
+            // Normalize multiple spaces
+            filteredText = MultipleSpacesRegex().Replace(filteredText, " ").Trim();
 
             return filteredText;
         }
 
         /// <inheritdoc/>
-        public List<string> CreateWordList(string text)
+        public List<WordPairCountDTO> CreateWordPairDistribution(string text)
         {
             // Validate inputs
-            if (string.IsNullOrEmpty(text))
+            if (string.IsNullOrWhiteSpace(text))
             {
                 return [];
             }
 
-            // Filter the text
-            var filteredText = RemoveNonAlphaCharacters(text);
+            // Filter the text, make it all lowercase
+            var filteredText = RemoveNonAlphaCharacters(text)
+                .ToLowerInvariant();
 
-            // Map the text to a list
-            return [.. filteredText.Split(' ')];
-        }
-
-        /// <inheritdoc/>
-        public List<string> CreateWordPairList(string text)
-        {
-            // Validate inputs
-            if (string.IsNullOrEmpty(text))
-            {
-                return [];
-            }
-
-            // Filter the text
-            var filteredText = RemoveNonAlphaCharacters(text);
-
-            // Split the text
+            // Split the text into words
             var words = filteredText.Split([' '], StringSplitOptions.RemoveEmptyEntries);
 
-            // Create word pairs
-            List<string> pairs = [.. words
-             .Take(words.Length - 1)
-             .Select((word, index) => $"{word} {words[index + 1]}")];
+            // Iterate through words to form pairs and count them
+            var pairCounts = new Dictionary<(string, string), int>();
 
-            return pairs;
+            for (int i = 0; i < words.Length - 1; i++)
+            {
+                var word1 = words[i];
+                var word2 = words[i + 1];
+                var pair = (word1, word2);
+
+                if (pairCounts.TryGetValue(pair, out int value))
+                {
+                    pairCounts[pair] = ++value;
+                }
+                else
+                {
+                    pairCounts.Add(pair, 1);
+                }
+            }
+
+            // Convert dictionary to list of DTOs
+            var result = pairCounts.Select(pair => new WordPairCountDTO
+            {
+                Word1 = pair.Key.Item1,
+                Word2 = pair.Key.Item2,
+                Count = pair.Value
+            }).ToList();
+
+            // Sort the results in descending order
+            result.Sort((DTO1, DTO2) => DTO2.CompareTo(DTO1));
+
+            return result;
         }
 
         #endregion

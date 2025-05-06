@@ -116,10 +116,10 @@ namespace BigramParser
             if (StringInputTypeSelected)
             {
                 // Create word pairs list
-                var wordPairs = _stringProcessingService.CreateWordPairList(StringInput);
+                var wordPairs = _stringProcessingService.CreateWordPairDistribution(StringInput);
 
                 // Output the word pairs
-                OutputText = string.Join(',', wordPairs);
+                OutputText = string.Join('\n', wordPairs);
             }
             else if (FileInputTypeSelected)
             {
@@ -127,10 +127,10 @@ namespace BigramParser
                 var fileContent = _fileParseService.Parse(SelectedFilePath);
 
                 // Create word pairs list
-                var wordPairs = _stringProcessingService.CreateWordPairList(fileContent);
+                var wordPairs = _stringProcessingService.CreateWordPairDistribution(fileContent);
 
                 // Output the word pairs
-                OutputText = string.Join(',', wordPairs);
+                OutputText = string.Join('\n', wordPairs);
             }
         }
 
