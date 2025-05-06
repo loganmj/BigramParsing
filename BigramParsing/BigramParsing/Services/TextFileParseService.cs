@@ -40,19 +40,7 @@ namespace BigramParser.Services
             }
 
             // Parse the file and replace newline characters with spaces
-            var content = File.ReadAllText(filePath)
-                .Replace("\r\n", " ")
-                .Replace("\n", " ")
-                .Replace("\r", " ");
-
-
-            // Remove all characters except letters, digits, and spaces
-            content = AlphaNumericRegex().Replace(content, " ");
-
-            // Replace multiple spaces with a single space
-            content = MultipleSpacesRegex().Replace(content, " ").Trim();
-
-            return content;
+            return File.ReadAllText(filePath);
         }
 
         #endregion

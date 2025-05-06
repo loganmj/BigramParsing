@@ -20,6 +20,7 @@ namespace BigramParser
 
         private IFileDialogService _fileDialogService;
         private ITextFileParseService _fileParseService;
+        private IStringFilterService _stringFilterService;
 
         #endregion
 
@@ -70,10 +71,11 @@ namespace BigramParser
         /// </summary>
         /// <param name="fileDialogService"></param>
         /// <param name="fileParseService"></param>
-        public MainWindowViewModel(IFileDialogService fileDialogService, ITextFileParseService fileParseService)
+        public MainWindowViewModel(IFileDialogService fileDialogService, ITextFileParseService fileParseService, IStringFilterService stringFilterService)
         {
             _fileDialogService = fileDialogService;
             _fileParseService = fileParseService;
+            _stringFilterService = stringFilterService;
             Title = "Bigram Parser";
             StringInputTypeSelected = true;
             StringInput = string.Empty;
@@ -113,12 +115,15 @@ namespace BigramParser
         {
             if (StringInputTypeSelected)
             {
-                OutputText = StringInput;
+                OutputText = _stringFilterService.RemoveNonAlphaCharacters(StringInput);
             }
             else if (FileInputTypeSelected)
             {
-                // TODO: Parse the file and output the text
-                OutputText = _fileParseService.Parse(SelectedFilePath);
+                // Parse the file
+                var fileContent = _fileParseService.Parse(SelectedFilePath);
+
+                // Filter and output the text
+                OutputText = _stringFilterService.RemoveNonAlphaCharacters(fileContent);
             }
         }
 

@@ -52,8 +52,9 @@
                <Label Style="{StaticResource BP_Label_Style}">Output:</Label>
                <Border Style="{StaticResource BP_Component_Border_Style}">
                   <TextBlock Style="{StaticResource BP_TextBlock_Style}"
-                          Width="450"
-                          Height="300">
+                             Width="450"
+                             Height="300"
+                             ScrollViewer.VerticalScrollBarVisibility="Auto">
                      <Run Text="{Binding OutputText}"/>
                   </TextBlock>
                </Border>
