@@ -73,7 +73,17 @@ namespace BigramParser
         [RelayCommand]
         private void SelectFile()
         {
-            SelectedFilePath = _fileDialogService.SelectFile(SUPPORTED_FILE_TYPES_FILTER);
+            var filePath = _fileDialogService.SelectFile(SUPPORTED_FILE_TYPES_FILTER);
+
+            if (string.IsNullOrEmpty(filePath))
+            {
+                // Retain the placeholder value
+                SelectedFilePath = "Select file ...";
+            }
+            else
+            {
+                SelectedFilePath = filePath;
+            }
         }
 
         #endregion
