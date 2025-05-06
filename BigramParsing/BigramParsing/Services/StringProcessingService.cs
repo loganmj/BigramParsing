@@ -5,7 +5,7 @@ namespace BigramParser.Services
     /// <summary>
     /// Implements the string filter service interface.
     /// </summary>
-    public partial class StringFilterService : IStringFilterService
+    public partial class StringProcessingService : IStringProcessingService
     {
         #region Regex
 
@@ -45,6 +45,45 @@ namespace BigramParser.Services
             filteredText = MultipleSpacesRegex().Replace(filteredText, " ").Trim();
 
             return filteredText;
+        }
+
+        /// <inheritdoc/>
+        public List<string> CreateWordList(string text)
+        {
+            // Validate inputs
+            if (string.IsNullOrEmpty(text))
+            {
+                return [];
+            }
+
+            // Filter the text
+            var filteredText = RemoveNonAlphaCharacters(text);
+
+            // Map the text to a list
+            return [.. filteredText.Split(' ')];
+        }
+
+        /// <inheritdoc/>
+        public List<string> CreateWordPairList(string text)
+        {
+            // Validate inputs
+            if (string.IsNullOrEmpty(text))
+            {
+                return [];
+            }
+
+            // Filter the text
+            var filteredText = RemoveNonAlphaCharacters(text);
+
+            // Split the text
+            var words = filteredText.Split([' '], StringSplitOptions.RemoveEmptyEntries);
+
+            // Create word pairs
+            List<string> pairs = [.. words
+             .Take(words.Length - 1)
+             .Select((word, index) => $"{word} {words[index + 1]}")];
+
+            return pairs;
         }
 
         #endregion

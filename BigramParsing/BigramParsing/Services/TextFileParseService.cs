@@ -1,5 +1,4 @@
 ﻿using System.IO;
-using System.Text.RegularExpressions;
 
 namespace BigramParser.Services
 {
@@ -8,25 +7,6 @@ namespace BigramParser.Services
     /// </summary>
     public partial class TextFileParseService : ITextFileParseService
     {
-        #region Regex
-
-        /// <summary>
-        /// A regex filter that removes all non-alphanumeric characters,
-        /// leaving letters, numbers, and spaces.
-        /// </summary>
-        /// <returns></returns>
-        [GeneratedRegex("[^a-zA-Z ]")]
-        private static partial Regex AlphaNumericRegex();
-
-        /// <summary>
-        /// A regex filter that finds all instances of one or more successive space characters.
-        /// </summary>
-        /// <returns></returns>
-        [GeneratedRegex(@"\s+")]
-        private static partial Regex MultipleSpacesRegex();
-
-        #endregion
-
         #region Public Methods
 
         /// <inheritdoc/>
