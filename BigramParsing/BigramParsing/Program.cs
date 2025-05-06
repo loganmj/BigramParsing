@@ -17,7 +17,7 @@ void PrintTitleAndDescription()
     Console.WriteLine("--------------------------------------------------");
     Console.WriteLine("Bigram Parser");
     Console.WriteLine("--------------------------------------------------");
-    Console.WriteLine("Parses text from a string or file and creates a histogram of occurances of pairs of words.");
+    Console.WriteLine("Parses text from a string or file and creates a histogram of occurrences of pairs of words.");
     Console.WriteLine("--------------------------------------------------");
 }
 
