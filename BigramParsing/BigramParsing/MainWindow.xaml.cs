@@ -10,7 +10,7 @@ namespace BigramParser
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="viewModel"></param>
+        /// <param name="viewModel">The ViewModel instance that provides data and commands for the MainWindow, used to set the DataContext for data binding.</param>
         public MainWindow(MainWindowViewModel viewModel)
         {
             InitializeComponent();
