@@ -1,17 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace BigramParser.UserControls
 {
@@ -20,9 +8,42 @@ namespace BigramParser.UserControls
     /// </summary>
     public partial class StringEditor : UserControl
     {
+        #region Properties
+
+        /// <summary>
+        /// The string value content of the input textbox.
+        /// </summary>
+        public string TextContent
+        {
+            get => (string)GetValue(TextContentProperty);
+            set => SetValue(TextContentProperty, value);
+        }
+
+        #endregion
+
+        #region Dependency Properties
+
+        /// <summary>
+        /// Exposes the TextContent property as a Dependency Property, allowing for data binding.
+        /// </summary>
+        public static readonly DependencyProperty TextContentProperty =
+            DependencyProperty.Register(nameof(TextContent),
+                                        typeof(string),
+                                        typeof(StringEditor),
+                                        new PropertyMetadata(string.Empty));
+
+        #endregion
+
+        #region Constructors
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public StringEditor()
         {
             InitializeComponent();
         }
+
+        #endregion
     }
 }

@@ -37,6 +37,12 @@ namespace BigramParser
         private bool _stringInputTypeSelected;
 
         /// <summary>
+        /// The user input string value.
+        /// </summary>
+        [ObservableProperty]
+        private string _stringInput;
+
+        /// <summary>
         /// Is the file input type selected.
         /// </summary>
         [ObservableProperty]
@@ -47,6 +53,12 @@ namespace BigramParser
         /// </summary>
         [ObservableProperty]
         private string _selectedFilePath;
+
+        /// <summary>
+        /// The string retrieved from the user.
+        /// </summary>
+        [ObservableProperty]
+        private string _outputText;
 
         #endregion
 
@@ -60,8 +72,10 @@ namespace BigramParser
             _fileDialogService = fileDialogService;
             Title = "Bigram Parser";
             StringInputTypeSelected = true;
+            StringInput = string.Empty;
             FileInputTypeSelected = false;
             SelectedFilePath = SELECTED_FILE_PATH_PLACEHOLDER_VALUE;
+            OutputText = string.Empty;
         }
 
         #endregion
@@ -84,6 +98,23 @@ namespace BigramParser
             else
             {
                 SelectedFilePath = filePath;
+            }
+        }
+
+        /// <summary>
+        /// Processes the text input by the user.
+        /// </summary>
+        [RelayCommand]
+        private void Submit()
+        {
+            if (StringInputTypeSelected)
+            {
+                OutputText = StringInput;
+            }
+            else if (FileInputTypeSelected)
+            {
+                // TODO: Parse the file and output the text
+                OutputText = SelectedFilePath;
             }
         }
 
