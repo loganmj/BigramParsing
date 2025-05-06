@@ -11,6 +11,7 @@ namespace BigramParser
     {
         #region Constants
 
+        private const string SELECTED_FILE_PATH_PLACEHOLDER_VALUE = "Select file ...";
         private const string SUPPORTED_FILE_TYPES_FILTER = "Text Files (*.txt)|*.txt|Markdown Files (*.md)|*.md|Text and Markdown Files (*.txt;*.md)|*.txt;*.md";
 
         #endregion
@@ -60,7 +61,7 @@ namespace BigramParser
             Title = "Bigram Parser";
             StringInputTypeSelected = true;
             FileInputTypeSelected = false;
-            SelectedFilePath = "Select file ...";
+            SelectedFilePath = SELECTED_FILE_PATH_PLACEHOLDER_VALUE;
         }
 
         #endregion
@@ -78,7 +79,7 @@ namespace BigramParser
             if (string.IsNullOrEmpty(filePath))
             {
                 // Retain the placeholder value
-                SelectedFilePath = "Select file ...";
+                SelectedFilePath = SELECTED_FILE_PATH_PLACEHOLDER_VALUE;
             }
             else
             {
