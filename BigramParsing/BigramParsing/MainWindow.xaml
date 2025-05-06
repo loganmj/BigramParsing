@@ -10,7 +10,6 @@
         Height="450" 
         Width="800">
     <Grid>
-      <Label>Bigram Parser</Label>
-      <TextBox></TextBox>
+      <TextBox Style="{StaticResource BP_TextBox_Style}"></TextBox>
     </Grid>
 </Window>
