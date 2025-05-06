@@ -4,13 +4,14 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BigramParser" 
+        xmlns:userControls="clr-namespace:BigramParser.UserControls"
         d:DataContext="{d:DesignInstance Type=local:MainWindowViewModel}"
         mc:Ignorable="d"
-        Title="{Binding Title}" 
-        Height="450" 
-        Width="800">
-    <Grid>
-      <Label>Bigram Parser</Label>
-      <TextBox></TextBox>
-    </Grid>
+        Title="{Binding Title}"
+        MinHeight="450"
+        MinWidth="500">
+   <StackPanel HorizontalAlignment="Center">
+      <userControls:StringEditor/>
+      <Button Style="{StaticResource BP_Button_Style}">Submit</Button>
+    </StackPanel>
 </Window>
