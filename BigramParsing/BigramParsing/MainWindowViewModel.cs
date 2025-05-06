@@ -20,7 +20,7 @@ namespace BigramParser
 
         private IFileDialogService _fileDialogService;
         private ITextFileParseService _fileParseService;
-        private IStringFilterService _stringFilterService;
+        private IStringProcessingService _stringProcessingService;
 
         #endregion
 
@@ -71,11 +71,11 @@ namespace BigramParser
         /// </summary>
         /// <param name="fileDialogService"></param>
         /// <param name="fileParseService"></param>
-        public MainWindowViewModel(IFileDialogService fileDialogService, ITextFileParseService fileParseService, IStringFilterService stringFilterService)
+        public MainWindowViewModel(IFileDialogService fileDialogService, ITextFileParseService fileParseService, IStringProcessingService stringFilterService)
         {
             _fileDialogService = fileDialogService;
             _fileParseService = fileParseService;
-            _stringFilterService = stringFilterService;
+            _stringProcessingService = stringFilterService;
             Title = "Bigram Parser";
             StringInputTypeSelected = true;
             StringInput = string.Empty;
@@ -115,15 +115,22 @@ namespace BigramParser
         {
             if (StringInputTypeSelected)
             {
-                OutputText = _stringFilterService.RemoveNonAlphaCharacters(StringInput);
+                // Create word pairs list
+                var wordPairs = _stringProcessingService.CreateWordPairList(StringInput);
+
+                // Output the word pairs
+                OutputText = string.Join(',', wordPairs);
             }
             else if (FileInputTypeSelected)
             {
                 // Parse the file
                 var fileContent = _fileParseService.Parse(SelectedFilePath);
 
-                // Filter and output the text
-                OutputText = _stringFilterService.RemoveNonAlphaCharacters(fileContent);
+                // Create word pairs list
+                var wordPairs = _stringProcessingService.CreateWordPairList(fileContent);
+
+                // Output the word pairs
+                OutputText = string.Join(',', wordPairs);
             }
         }
 
