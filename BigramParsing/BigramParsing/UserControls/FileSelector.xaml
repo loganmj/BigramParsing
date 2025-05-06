@@ -1,0 +1,17 @@
+﻿<UserControl x:Class="BigramParser.UserControls.FileSelector"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:BigramParser.UserControls"
+             mc:Ignorable="d">
+    <StackPanel Orientation="Horizontal">
+      <Border Style="{StaticResource BP_Component_Border_Style}">
+         <TextBlock Style="{StaticResource BP_TextBlock_Style}"
+                 Width="300">
+         <Run Text="File Path"/>
+         </TextBlock>
+      </Border>
+      <Button Style="{StaticResource BP_Button_Style}">Open</Button>
+    </StackPanel>
+</UserControl>
