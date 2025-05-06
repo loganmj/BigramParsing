@@ -24,7 +24,7 @@ namespace BigramParser.Converters
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             // Get the invert parameter value, if available
-            bool tempValue = value is bool v && v || value == null;
+            bool tempValue = (value is bool v && v) || value == null;
             bool invert;
 
             // If "true" is passed in, invert the bool
