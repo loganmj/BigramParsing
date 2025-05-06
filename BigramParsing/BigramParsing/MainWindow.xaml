@@ -34,7 +34,9 @@
       <!-- File selector -->
       <Border Style="{StaticResource BP_Component_Border_Style}"
               Visibility="{Binding FileInputTypeSelected, Converter={StaticResource BP_BooleanToVisiblityConverter}}">
-         <userControls:FileSelector Margin="5"/>
+         <userControls:FileSelector Margin="5"
+                                    SelectedFilePath="{Binding SelectedFilePath}"
+                                    SelectFileCommand="{Binding SelectFileCommand}"/>
       </Border>
 
       <Button Style="{StaticResource BP_Button_Style}">Submit</Button>

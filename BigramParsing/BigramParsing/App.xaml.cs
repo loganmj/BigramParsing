@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using BigramParser.Services;
+using System.Windows;
 
 namespace BigramParser
 {
@@ -16,7 +17,11 @@ namespace BigramParser
         /// <param name="e">The event data containing information about the startup process.</param>
         public void OnStartup(object sender, StartupEventArgs e)
         {
-            var mainWindowViewModel = new MainWindowViewModel();
+            // Build services
+            var fileDialogService = new FileDialogService();
+
+            // Create main window
+            var mainWindowViewModel = new MainWindowViewModel(fileDialogService);
             var mainWindow = new MainWindow(mainWindowViewModel);
             mainWindow.Show();
         }
