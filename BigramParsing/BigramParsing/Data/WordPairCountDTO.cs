@@ -29,7 +29,7 @@
         /// <inheritdoc/>
         public override string ToString()
         {
-            return $"WordPairCountDTO: [Word1: {Word1}, Word2: {Word2}, Count: {Count}]";
+            return $"\"{Word1} {Word2}\": {Count}";
         }
 
         #endregion

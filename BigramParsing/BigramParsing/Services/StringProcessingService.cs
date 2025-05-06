@@ -15,8 +15,18 @@ namespace BigramParser.Services
         /// leaving only letters/words, and single spaces.
         /// </summary>
         /// <returns></returns>
-        [GeneratedRegex("[^a-zA-Z ]")]
+
+        [GeneratedRegex("[^a-zA-Z\\-\' ]")]
         private static partial Regex AlphaRegex();
+
+
+
+        /// <summary>
+        /// Matches apostrophes or hyphens that are at start/end of a word or surrounded by spaces.
+        /// </summary>
+        [GeneratedRegex(@"(?<![a-zA-Z])['\-]|'\-")]
+        private static partial Regex LoneSpecialCharRegex();
+
 
         /// <summary>
         /// A regex filter that finds all instances of one or more successive space characters.
@@ -39,11 +49,16 @@ namespace BigramParser.Services
                 .Replace("\r", " ");
 
 
-            // Remove all characters except letters, digits, and spaces
-            filteredText = AlphaRegex().Replace(filteredText, " ");
 
-            // Replace multiple spaces with a single space
-            filteredText = MultipleSpacesRegex().Replace(filteredText, " ").Trim();
+            // Remove all characters except letters, apostrophes, hyphens, and spaces
+            filteredText = AlphaRegex().Replace(filteredText, " ");
+
+            // Remove apostrophes and hyphens not between letters
+            // This keeps contractions and compound words intact, but filters out floating special characters.
+            filteredText = LoneSpecialCharRegex().Replace(filteredText, " ");
+
+            // Normalize multiple spaces
+            filteredText = MultipleSpacesRegex().Replace(filteredText, " ").Trim();
 
             return filteredText;
         }

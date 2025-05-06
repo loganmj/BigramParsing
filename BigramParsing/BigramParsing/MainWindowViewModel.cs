@@ -119,7 +119,7 @@ namespace BigramParser
                 var wordPairs = _stringProcessingService.CreateWordPairDistribution(StringInput);
 
                 // Output the word pairs
-                OutputText = string.Join(',', wordPairs);
+                OutputText = string.Join('\n', wordPairs);
             }
             else if (FileInputTypeSelected)
             {
@@ -130,7 +130,7 @@ namespace BigramParser
                 var wordPairs = _stringProcessingService.CreateWordPairDistribution(fileContent);
 
                 // Output the word pairs
-                OutputText = string.Join(',', wordPairs);
+                OutputText = string.Join('\n', wordPairs);
             }
         }
 
