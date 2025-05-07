@@ -1,5 +1,4 @@
-﻿using BigramParser.Data;
-using BigramParser.Services;
+﻿using BigramParser.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
@@ -14,6 +13,7 @@ namespace BigramParser
 
         private const string SELECTED_FILE_PATH_PLACEHOLDER_VALUE = "Select file";
         private const string SUPPORTED_FILE_TYPES_FILTER = "Text Files (*.txt)|*.txt|Markdown Files (*.md)|*.md|Text and Markdown Files (*.txt;*.md)|*.txt;*.md";
+        private const string OUTPUT_TEXT_NO_WORD_PAIRS_FOUND_MESSAGE = "No word pairs found.";
 
         #endregion
 
@@ -132,7 +132,13 @@ namespace BigramParser
             var wordPairsList = _stringProcessingService.CreateWordPairDistribution(textToProcess);
 
             // Output the word pairs
-            OutputText = string.Join('\n', wordPairsList ?? Enumerable.Empty<WordPairCountDTO>());
+            if (wordPairsList == null || wordPairsList.Count <= 0)
+            {
+                OutputText = OUTPUT_TEXT_NO_WORD_PAIRS_FOUND_MESSAGE;
+                return;
+            }
+
+            OutputText = string.Join('\n', wordPairsList);
         }
 
         #endregion
