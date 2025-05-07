@@ -82,7 +82,7 @@ namespace UnitTests
         public void SubmitCommand_HandleEmptyList()
         {
             var wordPairList = new List<WordPairCountDTO>();
-            var expected = "";
+            var expected = "No word pairs found.";
 
             // Setup mock string processing service
             _mockStringProcessingService.Setup(mock => mock.CreateWordPairDistribution(It.IsAny<string>())).Returns(wordPairList);
