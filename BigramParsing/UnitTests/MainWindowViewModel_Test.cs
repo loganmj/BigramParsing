@@ -210,6 +210,31 @@ namespace UnitTests
                 Assert.AreEqual(expectedOutput, _viewModel.OutputText);
             }
 
+            /// <summary>
+            /// Tests that the output text is correct given a specified set of parameters.
+            /// </summary>
+            [TestMethod]
+            public void SubmitCommand_HandleNonsense()
+            {
+                var inputText = "g#7'Lp-q2 @v9-T'z!3 m'1$-Xp&4 ^R7*e'W-0 z'8&-L$kQ ~T'z3!-v9 xP@#7-r$'M";
+                var expectedOutput = "\"glp-q vt'z\": 1\n"
+                                     + "\"vt'z mxp\": 1\n"
+                                     + "\"mxp re'w\": 1\n"
+                                     + "\"re'w zlkq\": 1\n"
+                                     + "\"zlkq t'zv\": 1\n"
+                                     + "\"t'zv xprm\": 1";
+
+                // Setup view model
+                _viewModel.StringInputTypeSelected = true;
+                _viewModel.StringInput = inputText;
+
+                // Execute SubmitCommand
+                _viewModel.SubmitCommand.Execute(null);
+
+                // Validate output text
+                Assert.AreEqual(expectedOutput, _viewModel.OutputText);
+            }
+
             /*
 
             [TestMethod]
