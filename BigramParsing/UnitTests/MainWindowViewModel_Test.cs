@@ -81,10 +81,10 @@ namespace UnitTests
         [TestMethod]
         public void SubmitCommand_HandleEmptyList()
         {
+            var wordPairList = new List<WordPairCountDTO>();
             var expected = "";
 
             // Setup mock string processing service
-            var wordPairList = new List<WordPairCountDTO>();
             _mockStringProcessingService.Setup(mock => mock.CreateWordPairDistribution(It.IsAny<string>())).Returns(wordPairList);
 
             // Execute SubmitCommand
@@ -96,16 +96,12 @@ namespace UnitTests
         }
 
         /// <summary>
-        /// Tests the submit command using the string input path.
+        /// Tests that the output text is derived from the StringInput property when the string input type switch is set to true.
         /// </summary>
         [TestMethod]
         public void SubmitCommand_TestParams1()
         {
             var expected = "\"unit test\": 1";
-
-            // Setup viewmodel
-            _viewModel.StringInputTypeSelected = true;
-            _viewModel.FileInputTypeSelected = false;
 
             // Setup mock string processing service
             var wordPairList = new List<WordPairCountDTO>()
@@ -135,10 +131,6 @@ namespace UnitTests
         public void SubmitCommand_TestParams2()
         {
             var expected = "\"unit test\": 2\n\"test words\": 1";
-
-            // Setup viewmodel
-            _viewModel.StringInputTypeSelected = true;
-            _viewModel.FileInputTypeSelected = false;
 
             // Setup mock string processing service
             var wordPairList = new List<WordPairCountDTO>()
