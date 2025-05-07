@@ -11,8 +11,9 @@ namespace BigramParser
     {
         #region Constants
 
-        private const string SELECTED_FILE_PATH_PLACEHOLDER_VALUE = "Select file ...";
+        private const string SELECTED_FILE_PATH_PLACEHOLDER_VALUE = "Select file";
         private const string SUPPORTED_FILE_TYPES_FILTER = "Text Files (*.txt)|*.txt|Markdown Files (*.md)|*.md|Text and Markdown Files (*.txt;*.md)|*.txt;*.md";
+        private const string OUTPUT_TEXT_NO_WORD_PAIRS_FOUND_MESSAGE = "No word pairs found.";
 
         #endregion
 
@@ -94,11 +95,13 @@ namespace BigramParser
         [RelayCommand]
         private void SelectFile()
         {
+            // Allow user to select a file
             var filePath = _fileDialogService.SelectFile(SUPPORTED_FILE_TYPES_FILTER);
 
+            // If the user does not select a file, or the service otherwise returns an empty string, use the placeholder value
+            // Otherwise, get the file path
             if (string.IsNullOrEmpty(filePath))
             {
-                // Retain the placeholder value
                 SelectedFilePath = SELECTED_FILE_PATH_PLACEHOLDER_VALUE;
             }
             else
@@ -113,25 +116,29 @@ namespace BigramParser
         [RelayCommand]
         private void Submit()
         {
+            string textToProcess;
+
             if (StringInputTypeSelected)
             {
-                // Create word pairs list
-                var wordPairs = _stringProcessingService.CreateWordPairDistribution(StringInput);
-
-                // Output the word pairs
-                OutputText = string.Join('\n', wordPairs);
+                textToProcess = StringInput;
             }
-            else if (FileInputTypeSelected)
+            else
             {
                 // Parse the file
-                var fileContent = _fileParseService.Parse(SelectedFilePath);
-
-                // Create word pairs list
-                var wordPairs = _stringProcessingService.CreateWordPairDistribution(fileContent);
-
-                // Output the word pairs
-                OutputText = string.Join('\n', wordPairs);
+                textToProcess = _fileParseService.Parse(SelectedFilePath);
             }
+
+            // Create word pairs list
+            var wordPairsList = _stringProcessingService.CreateWordPairDistribution(textToProcess);
+
+            // Output the word pairs
+            if (wordPairsList == null || wordPairsList.Count <= 0)
+            {
+                OutputText = OUTPUT_TEXT_NO_WORD_PAIRS_FOUND_MESSAGE;
+                return;
+            }
+
+            OutputText = string.Join('\n', wordPairsList);
         }
 
         #endregion

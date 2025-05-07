@@ -54,7 +54,8 @@
                   <ScrollViewer VerticalScrollBarVisibility="Auto"
                                 Width="450"
                                 Height="300">
-                     <TextBlock Style="{StaticResource BP_TextBlock_Style}">
+                     <TextBlock Style="{StaticResource BP_TextBlock_Style}"
+                                VerticalAlignment="Top">
                         <Run Text="{Binding OutputText}"/>
                      </TextBlock>
                   </ScrollViewer>

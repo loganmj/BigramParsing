@@ -32,6 +32,24 @@
             return $"\"{Word1} {Word2}\": {Count}";
         }
 
+        /// <inheritdoc/>
+        public override bool Equals(object? obj)
+        {
+            return obj is WordPairCountDTO other
+                   && string.Equals(Word1, other.Word1, StringComparison.OrdinalIgnoreCase)
+                   && string.Equals(Word2, other.Word2, StringComparison.OrdinalIgnoreCase)
+                   && Count == other.Count;
+        }
+
+        /// <inheritdoc/>
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Word1?.ToLowerInvariant(),
+                                    Word2?.ToLowerInvariant(),
+                                    Count);
+        }
+
+
         #endregion
     }
 }

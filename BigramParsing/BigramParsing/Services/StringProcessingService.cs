@@ -11,26 +11,19 @@ namespace BigramParser.Services
         #region Regex
 
         /// <summary>
-        /// A regex filter that removes all non-alpha characters,
-        /// leaving only letters/words, and single spaces.
+        /// Isolates all numbers and special characters from a string with the following exceptions:
+        /// - Any hyphens that are part of a compound word
+        /// - Any apostrophe that is part of a contraction
+        /// Regex breakdown:
+        /// - (?<![a-zA-Z])['\-]: Matches ' or - not preceded by a letter
+        /// - ['\-](?![a-zA-Z]): Matches ' or - not followed by a letter.
+        /// - [^a-zA-Z'\- ]: Matches any character that is not a letter, apostrophe, hyphen, or space.
         /// </summary>
         /// <returns></returns>
+        [GeneratedRegex(@"(?<![a-zA-Z])['\-]|['\-](?![a-zA-Z])|[^a-zA-Z'\- ]")]
+        private static partial Regex SpecialCharactersRegex();
 
-        [GeneratedRegex("[^a-zA-Z\\-\' ]")]
-        private static partial Regex AlphaRegex();
 
-        /// <summary>
-        /// Matches apostrophes or hyphens that are at the start or end of a word, or surrounded by spaces.
-        /// 
-        /// Regex breakdown:
-        /// - (?<![a-zA-Z])['\-]: Matches an apostrophe or hyphen that is not preceded by a letter (start of a word).
-        /// - |: Alternation operator, allowing for multiple matching conditions.
-        /// - '\-: Matches an apostrophe followed immediately by a hyphen.
-        /// 
-        /// This ensures that standalone apostrophes or hyphens, or those improperly placed, are matched and can be removed.
-        /// </summary>
-        [GeneratedRegex(@"(?<![a-zA-Z])['\-]|'\-")]
-        private static partial Regex LoneSpecialCharRegex();
 
         /// <summary>
         /// A regex filter that finds all instances of one or more successive space characters.
@@ -46,18 +39,20 @@ namespace BigramParser.Services
         /// <inheritdoc/>
         public string RemoveNonAlphaCharacters(string text)
         {
+            // Validate inputs
+            if (string.IsNullOrEmpty(text))
+            {
+                return string.Empty;
+            }
+
             // Parse the file and replace newline characters with spaces
             var filteredText = text
                 .Replace("\r\n", " ")
                 .Replace("\n", " ")
                 .Replace("\r", " ");
 
-            // Remove all characters except letters, apostrophes, hyphens, and spaces
-            filteredText = AlphaRegex().Replace(filteredText, " ");
-
-            // Remove apostrophes and hyphens not between letters
-            // This keeps contractions and compound words intact, but filters out floating special characters.
-            filteredText = LoneSpecialCharRegex().Replace(filteredText, " ");
+            // Filter out all unwanted characters from the text
+            filteredText = SpecialCharactersRegex().Replace(filteredText, "");
 
             // Normalize multiple spaces
             filteredText = MultipleSpacesRegex().Replace(filteredText, " ").Trim();
