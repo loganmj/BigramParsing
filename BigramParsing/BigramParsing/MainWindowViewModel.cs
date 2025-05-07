@@ -132,7 +132,7 @@ namespace BigramParser
             var wordPairsList = _stringProcessingService.CreateWordPairDistribution(textToProcess);
 
             // Output the word pairs
-            OutputText = string.Join('\n', wordPairsList ?? Enumerable.Empty<WordPairCountDTO>());
+            OutputText = string.Join(Environment.NewLine, wordPairsList ?? Enumerable.Empty<WordPairCountDTO>());
         }
 
         #endregion
