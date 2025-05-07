@@ -11,7 +11,7 @@ namespace BigramParser
     {
         #region Constants
 
-        private const string SELECTED_FILE_PATH_PLACEHOLDER_VALUE = "Select file ...";
+        private const string SELECTED_FILE_PATH_PLACEHOLDER_VALUE = "Select file";
         private const string SUPPORTED_FILE_TYPES_FILTER = "Text Files (*.txt)|*.txt|Markdown Files (*.md)|*.md|Text and Markdown Files (*.txt;*.md)|*.txt;*.md";
 
         #endregion
@@ -94,11 +94,13 @@ namespace BigramParser
         [RelayCommand]
         private void SelectFile()
         {
+            // Allow user to select a file
             var filePath = _fileDialogService.SelectFile(SUPPORTED_FILE_TYPES_FILTER);
 
+            // If the user does not select a file, or the service otherwise returns an empty string, use the placeholder value
+            // Otherwise, get the file path
             if (string.IsNullOrEmpty(filePath))
             {
-                // Retain the placeholder value
                 SelectedFilePath = SELECTED_FILE_PATH_PLACEHOLDER_VALUE;
             }
             else
