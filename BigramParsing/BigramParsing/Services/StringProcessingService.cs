@@ -74,37 +74,39 @@ namespace BigramParser.Services
             // Split the text into words
             var words = filteredText.Split([' '], StringSplitOptions.RemoveEmptyEntries);
 
-            // Iterate through words to form pairs and count them
-            var pairCounts = new Dictionary<(string, string), int>();
+            // Create the word pair list
+            var wordPairData = new List<WordPairCountDTO>();
 
             for (int i = 0; i < words.Length - 1; i++)
             {
+                // Get the word pair
                 var word1 = words[i];
                 var word2 = words[i + 1];
-                var pair = (word1, word2);
 
-                if (pairCounts.TryGetValue(pair, out int value))
+                // Check the list for existing word pair
+                var existingPair = wordPairData.FirstOrDefault(dto => (dto?.Word1?.Equals(word1) ?? false) && (dto?.Word2?.Equals(word2) ?? false));
+
+                // If word pair does not exist in the list, add it
+                // Otherwise, increment the pair count
+                if (existingPair == null)
                 {
-                    pairCounts[pair] = ++value;
+                    wordPairData.Add(new WordPairCountDTO()
+                    {
+                        Word1 = word1,
+                        Word2 = word2,
+                        Count = 1
+                    });
                 }
                 else
                 {
-                    pairCounts.Add(pair, 1);
+                    existingPair.Count++;
                 }
             }
 
-            // Convert dictionary to list of DTOs
-            var result = pairCounts.Select(pair => new WordPairCountDTO
-            {
-                Word1 = pair.Key.Item1,
-                Word2 = pair.Key.Item2,
-                Count = pair.Value
-            }).ToList();
-
             // Sort the results in descending order
-            result.Sort((DTO1, DTO2) => DTO2.CompareTo(DTO1));
+            wordPairData.Sort((DTO1, DTO2) => DTO2.CompareTo(DTO1));
 
-            return result;
+            return wordPairData;
         }
 
         #endregion
