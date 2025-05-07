@@ -74,39 +74,38 @@ namespace BigramParser.Services
             // Split the text into words
             var words = filteredText.Split([' '], StringSplitOptions.RemoveEmptyEntries);
 
-            // Create the word pair list
-            var wordPairData = new List<WordPairCountDTO>();
+            // Iterate through words to form pairs and count them
+            var wordPairMap = new Dictionary<(string, string), int>();
 
             for (int i = 0; i < words.Length - 1; i++)
             {
-                // Get the word pair
                 var word1 = words[i];
                 var word2 = words[i + 1];
+                var pair = (word1, word2);
 
-                // Check the list for existing word pair
-                var existingPair = wordPairData.FirstOrDefault(dto => (dto?.Word1?.Equals(word1) ?? false) && (dto?.Word2?.Equals(word2) ?? false));
-
-                // If word pair does not exist in the list, add it
-                // Otherwise, increment the pair count
-                if (existingPair == null)
+                // If the map contains the word pair, increment the value at that entry
+                // Otherwise, add an entry for the pair
+                if (wordPairMap.TryGetValue(pair, out int value))
                 {
-                    wordPairData.Add(new WordPairCountDTO()
-                    {
-                        Word1 = word1,
-                        Word2 = word2,
-                        Count = 1
-                    });
+                    wordPairMap[pair] = ++value;
                 }
                 else
                 {
-                    existingPair.Count++;
+                    wordPairMap.Add(pair, 1);
                 }
             }
 
-            // Sort the results in descending order
-            wordPairData.Sort((DTO1, DTO2) => DTO2.CompareTo(DTO1));
+            // Convert dictionary to list of DTOs
+            var result = wordPairMap.Select(pairData => new WordPairCountDTO
+            {
+                Word1 = pairData.Key.Item1,
+                Word2 = pairData.Key.Item2,
+                Count = pairData.Value
+            })
+                .OrderByDescending(dto => dto.Count)
+                .ToList();
 
-            return wordPairData;
+            return result;
         }
 
         #endregion
