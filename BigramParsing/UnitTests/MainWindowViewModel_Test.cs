@@ -1,4 +1,5 @@
 ﻿using BigramParser;
+using BigramParser.Data;
 using BigramParser.Services;
 using Moq;
 
@@ -13,26 +14,27 @@ namespace UnitTests
         #region Fields
 
         private Mock<IFileDialogService> _mockFileDialogService;
-        // private Mock<ITextFileParseService> _mockFileParseService;
-        // private Mock<IStringProcessingService> _mockStringProcessingService;
+        private Mock<ITextFileParseService> _mockFileParseService;
+        private Mock<IStringProcessingService> _mockStringProcessingService;
         private MainWindowViewModel _viewModel;
 
         #endregion
 
         #region Setup/Teardown
 
+        /// <summary>
+        /// Sets up the data required for testing.
+        /// </summary>
         [TestInitialize]
         public void Setup()
         {
             _mockFileDialogService = new Mock<IFileDialogService>();
-            // _mockFileParseService = new Mock<ITextFileParseService>();
-            // _mockStringProcessingService = new Mock<IStringProcessingService>();
+            _mockFileParseService = new Mock<ITextFileParseService>();
+            _mockStringProcessingService = new Mock<IStringProcessingService>();
 
-            _viewModel = new MainWindowViewModel(
-            _mockFileDialogService.Object,
-            new TextFileParseService(),
-            new StringProcessingService()
-            );
+            _viewModel = new MainWindowViewModel(_mockFileDialogService.Object,
+                                                 _mockFileParseService.Object,
+                                                 _mockStringProcessingService.Object);
         }
 
         #endregion
@@ -73,23 +75,52 @@ namespace UnitTests
         }
 
         /// <summary>
-        /// Tests that the output text is correct given a specified set of parameters.
+        /// Tests that the output text is derived from the StringInput property when the string input type switch is set to true.
+        /// </summary>
+        [TestMethod]
+        public void SubmitCommand_HandleEmptyList()
+        {
+            var wordPairList = new List<WordPairCountDTO>();
+            var expected = "";
+
+            // Setup view model
+            _mockStringProcessingService.Setup(mock => mock.CreateWordPairDistribution(It.IsAny<string>())).Returns(wordPairList);
+
+            // Execute SubmitCommand
+            _viewModel.SubmitCommand.Execute(null);
+            var actual = _viewModel.OutputText;
+
+            // Validate output text
+            Assert.AreEqual(expected, actual);
+        }
+
+        /// <summary>
+        /// Tests that the output text is derived from the StringInput property when the string input type switch is set to true.
         /// </summary>
         [TestMethod]
         public void SubmitCommand_TestParams1()
         {
-            var inputText = "Unit test";
-            var expectedOutput = "\"unit test\": 1";
+            var wordPairList = new List<WordPairCountDTO>()
+            {
+                new()
+                {
+                    Word1 = "unit",
+                    Word2 = "test",
+                    Count = 1
+                }
+            };
+
+            var expected = "\"unit test\": 1";
 
             // Setup view model
-            _viewModel.StringInputTypeSelected = true;
-            _viewModel.StringInput = inputText;
+            _mockStringProcessingService.Setup(mock => mock.CreateWordPairDistribution(It.IsAny<string>())).Returns(wordPairList);
 
             // Execute SubmitCommand
             _viewModel.SubmitCommand.Execute(null);
+            var actual = _viewModel.OutputText;
 
             // Validate output text
-            Assert.AreEqual(expectedOutput, _viewModel.OutputText);
+            Assert.AreEqual(expected, actual);
         }
 
         /// <summary>
@@ -98,140 +129,34 @@ namespace UnitTests
         [TestMethod]
         public void SubmitCommand_TestParams2()
         {
-            var inputText = "Hello my baby, hello my honey";
-            var expectedOutput = "\"hello my\": 2\n"
-                                 + "\"my baby\": 1\n"
-                                 + "\"baby hello\": 1\n"
-                                 + "\"my honey\": 1";
+            var wordPairList = new List<WordPairCountDTO>()
+            {
+                new()
+                {
+                    Word1 = "unit",
+                    Word2 = "test",
+                    Count = 2
+                },
+
+                new()
+                {
+                    Word1 = "test",
+                    Word2 = "words",
+                    Count = 1
+                },
+            };
+
+            var expected = "\"unit test\": 2\n\"test words\": 1";
 
             // Setup view model
-            _viewModel.StringInputTypeSelected = true;
-            _viewModel.StringInput = inputText;
+            _mockStringProcessingService.Setup(mock => mock.CreateWordPairDistribution(It.IsAny<string>())).Returns(wordPairList);
 
             // Execute SubmitCommand
             _viewModel.SubmitCommand.Execute(null);
+            var actual = _viewModel.OutputText;
 
             // Validate output text
-            Assert.AreEqual(expectedOutput, _viewModel.OutputText);
-        }
-
-        /// <summary>
-        /// Tests that the output text is correct given a specified set of parameters.
-        /// </summary>
-        [TestMethod]
-        public void SubmitCommand_TestParams3()
-        {
-            var inputText = "Karma, karma, karma, karma, karma chameleon";
-            var expectedOutput = "\"karma karma\": 4\n"
-                                 + "\"karma chameleon\": 1";
-
-            // Setup view model
-            _viewModel.StringInputTypeSelected = true;
-            _viewModel.StringInput = inputText;
-
-            // Execute SubmitCommand
-            _viewModel.SubmitCommand.Execute(null);
-
-            // Validate output text
-            Assert.AreEqual(expectedOutput, _viewModel.OutputText);
-        }
-
-        /// <summary>
-        /// Tests that the output text is correct given a specified set of parameters.
-        /// </summary>
-        [TestMethod]
-        public void SubmitCommand_HandleNumbers()
-        {
-            var inputText = "1337 5p34k h3r0";
-            var expectedOutput = "\"pk hr\": 1";
-
-            // Setup view model
-            _viewModel.StringInputTypeSelected = true;
-            _viewModel.StringInput = inputText;
-
-            // Execute SubmitCommand
-            _viewModel.SubmitCommand.Execute(null);
-
-            // Validate output text
-            Assert.AreEqual(expectedOutput, _viewModel.OutputText);
-        }
-
-        /// <summary>
-        /// Tests that the output text is correct given a specified set of parameters.
-        /// </summary>
-        [TestMethod]
-        public void SubmitCommand_HandleQuotes()
-        {
-            var inputText = "\"He says 'I can't cant'\", but he can.";
-            var expectedOutput = "\"he says\": 1\n"
-                                 + "\"says i\": 1\n"
-                                 + "\"i can't\": 1\n"
-                                 + "\"can't cant\": 1\n"
-                                 + "\"cant but\": 1\n"
-                                 + "\"but he\": 1\n"
-                                 + "\"he can\": 1";
-
-            // Setup view model
-            _viewModel.StringInputTypeSelected = true;
-            _viewModel.StringInput = inputText;
-
-            // Execute SubmitCommand
-            _viewModel.SubmitCommand.Execute(null);
-
-            // Validate output text
-            Assert.AreEqual(expectedOutput, _viewModel.OutputText);
-        }
-
-        /// <summary>
-        /// Tests that the output text is correct given a specified set of parameters.
-        /// </summary>
-        [TestMethod]
-        public void SubmitCommand_HandleCompoundWords()
-        {
-            var inputText = "Yes-yes! Warpstone for me-me! Glory for the Horned Rat!";
-            var expectedOutput = "\"yes-yes warpstone\": 1\n"
-                                 + "\"warpstone for\": 1\n"
-                                 + "\"for me-me\": 1\n"
-                                 + "\"me-me glory\": 1\n"
-                                 + "\"glory for\": 1\n"
-                                 + "\"for the\": 1\n"
-                                 + "\"the horned\": 1\n"
-                                 + "\"horned rat\": 1";
-
-            // Setup view model
-            _viewModel.StringInputTypeSelected = true;
-            _viewModel.StringInput = inputText;
-
-            // Execute SubmitCommand
-            _viewModel.SubmitCommand.Execute(null);
-
-            // Validate output text
-            Assert.AreEqual(expectedOutput, _viewModel.OutputText);
-        }
-
-        /// <summary>
-        /// Tests that the output text is correct given a specified set of parameters.
-        /// </summary>
-        [TestMethod]
-        public void SubmitCommand_HandleNonsense()
-        {
-            var inputText = "g#7'Lp-q2 @v9-T'z!3 m'1$-Xp&4 ^R7*e'W-0 z'8&-L$kQ ~T'z3!-v9 xP@#7-r$'M";
-            var expectedOutput = "\"glp-q vt'z\": 1\n"
-                                 + "\"vt'z mxp\": 1\n"
-                                 + "\"mxp re'w\": 1\n"
-                                 + "\"re'w zlkq\": 1\n"
-                                 + "\"zlkq t'zv\": 1\n"
-                                 + "\"t'zv xprm\": 1";
-
-            // Setup view model
-            _viewModel.StringInputTypeSelected = true;
-            _viewModel.StringInput = inputText;
-
-            // Execute SubmitCommand
-            _viewModel.SubmitCommand.Execute(null);
-
-            // Validate output text
-            Assert.AreEqual(expectedOutput, _viewModel.OutputText);
+            Assert.AreEqual(expected, actual);
         }
 
         /*

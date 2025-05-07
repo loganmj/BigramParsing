@@ -1,4 +1,5 @@
-﻿using BigramParser.Services;
+﻿using BigramParser.Data;
+using BigramParser.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
@@ -115,25 +116,23 @@ namespace BigramParser
         [RelayCommand]
         private void Submit()
         {
+            string textToProcess;
+
             if (StringInputTypeSelected)
             {
-                // Create word pairs list
-                var wordPairs = _stringProcessingService.CreateWordPairDistribution(StringInput);
-
-                // Output the word pairs
-                OutputText = string.Join('\n', wordPairs);
+                textToProcess = StringInput;
             }
-            else if (FileInputTypeSelected)
+            else
             {
                 // Parse the file
-                var fileContent = _fileParseService.Parse(SelectedFilePath);
-
-                // Create word pairs list
-                var wordPairs = _stringProcessingService.CreateWordPairDistribution(fileContent);
-
-                // Output the word pairs
-                OutputText = string.Join('\n', wordPairs);
+                textToProcess = _fileParseService.Parse(SelectedFilePath);
             }
+
+            // Create word pairs list
+            var wordPairs = _stringProcessingService.CreateWordPairDistribution(textToProcess);
+
+            // Output the word pairs
+            OutputText = string.Join('\n', wordPairs ?? Enumerable.Empty<WordPairCountDTO>());
         }
 
         #endregion

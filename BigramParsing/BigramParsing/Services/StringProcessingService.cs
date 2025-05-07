@@ -39,6 +39,12 @@ namespace BigramParser.Services
         /// <inheritdoc/>
         public string RemoveNonAlphaCharacters(string text)
         {
+            // Validate inputs
+            if (string.IsNullOrEmpty(text))
+            {
+                return string.Empty;
+            }
+
             // Parse the file and replace newline characters with spaces
             var filteredText = text
                 .Replace("\r\n", " ")
