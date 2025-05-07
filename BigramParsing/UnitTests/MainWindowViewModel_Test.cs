@@ -48,7 +48,8 @@ namespace UnitTests
         public void SelectFileCommand_FileDialogServiceReturnsEmptyString()
         {
             // Mock up the file dialog service to return an empty string from its SelectFile() method.
-            _mockFileDialogService.Setup(mock => mock.SelectFile(It.IsAny<string>())).Returns(string.Empty);
+            var filePath = string.Empty;
+            _mockFileDialogService.Setup(mock => mock.SelectFile(It.IsAny<string>())).Returns(filePath);
 
             // Execute SelectFileCommand
             _viewModel.SelectFileCommand.Execute(null);
@@ -80,10 +81,10 @@ namespace UnitTests
         [TestMethod]
         public void SubmitCommand_HandleEmptyList()
         {
-            var wordPairList = new List<WordPairCountDTO>();
             var expected = "";
 
-            // Setup view model
+            // Setup mock string processing service
+            var wordPairList = new List<WordPairCountDTO>();
             _mockStringProcessingService.Setup(mock => mock.CreateWordPairDistribution(It.IsAny<string>())).Returns(wordPairList);
 
             // Execute SubmitCommand
@@ -95,11 +96,18 @@ namespace UnitTests
         }
 
         /// <summary>
-        /// Tests that the output text is derived from the StringInput property when the string input type switch is set to true.
+        /// Tests the submit command using the string input path.
         /// </summary>
         [TestMethod]
         public void SubmitCommand_TestParams1()
         {
+            var expected = "\"unit test\": 1";
+
+            // Setup viewmodel
+            _viewModel.StringInputTypeSelected = true;
+            _viewModel.FileInputTypeSelected = false;
+
+            // Setup mock string processing service
             var wordPairList = new List<WordPairCountDTO>()
             {
                 new()
@@ -110,9 +118,6 @@ namespace UnitTests
                 }
             };
 
-            var expected = "\"unit test\": 1";
-
-            // Setup view model
             _mockStringProcessingService.Setup(mock => mock.CreateWordPairDistribution(It.IsAny<string>())).Returns(wordPairList);
 
             // Execute SubmitCommand
@@ -129,6 +134,13 @@ namespace UnitTests
         [TestMethod]
         public void SubmitCommand_TestParams2()
         {
+            var expected = "\"unit test\": 2\n\"test words\": 1";
+
+            // Setup viewmodel
+            _viewModel.StringInputTypeSelected = true;
+            _viewModel.FileInputTypeSelected = false;
+
+            // Setup mock string processing service
             var wordPairList = new List<WordPairCountDTO>()
             {
                 new()
@@ -146,9 +158,6 @@ namespace UnitTests
                 },
             };
 
-            var expected = "\"unit test\": 2\n\"test words\": 1";
-
-            // Setup view model
             _mockStringProcessingService.Setup(mock => mock.CreateWordPairDistribution(It.IsAny<string>())).Returns(wordPairList);
 
             // Execute SubmitCommand
@@ -158,28 +167,6 @@ namespace UnitTests
             // Validate output text
             Assert.AreEqual(expected, actual);
         }
-
-        /*
-
-        [TestMethod]
-        public void Submit_WithFileInputTypeSelected_ProcessesFileInput()
-        {
-            _viewModel.StringInputTypeSelected = false;
-            _viewModel.FileInputTypeSelected = true;
-            _viewModel.SelectedFilePath = "C:\\test.txt";
-
-            var fileContent = "file content";
-            var expectedOutput = new[] { "file content" };
-
-            _mockFileParseService.Setup(s => s.Parse("C:\\test.txt")).Returns(fileContent);
-            _mockStringProcessingService.Setup(s => s.CreateWordPairDistribution(fileContent)).Returns(expectedOutput);
-
-            _viewModel.SubmitCommand.Execute(null);
-
-            Assert.AreEqual("file content", _viewModel.OutputText);
-        }
-
-        */
 
         #endregion
     }
