@@ -75,7 +75,7 @@ namespace BigramParser.Services
             var words = filteredText.Split([' '], StringSplitOptions.RemoveEmptyEntries);
 
             // Iterate through words to form pairs and count them
-            var wordPairMap = new Dictionary<(string, string), int>();
+            var wordPairCounts = new Dictionary<(string, string), int>();
 
             for (int i = 0; i < words.Length - 1; i++)
             {
@@ -85,18 +85,18 @@ namespace BigramParser.Services
 
                 // If the map contains the word pair, increment the value at that entry
                 // Otherwise, add an entry for the pair
-                if (wordPairMap.TryGetValue(pair, out int value))
+                if (wordPairCounts.TryGetValue(pair, out int value))
                 {
-                    wordPairMap[pair] = ++value;
+                    wordPairCounts[pair] = ++value;
                 }
                 else
                 {
-                    wordPairMap.Add(pair, 1);
+                    wordPairCounts.Add(pair, 1);
                 }
             }
 
             // Convert dictionary to list of DTOs
-            var result = wordPairMap.Select(pairData => new WordPairCountDTO
+            var result = wordPairCounts.Select(pairData => new WordPairCountDTO
             {
                 Word1 = pairData.Key.Item1,
                 Word2 = pairData.Key.Item2,
