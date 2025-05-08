@@ -72,7 +72,9 @@ namespace BigramParser
         /// </summary>
         /// <param name="fileDialogService"></param>
         /// <param name="fileParseService"></param>
-        public MainWindowViewModel(IFileDialogService fileDialogService, ITextFileParseService fileParseService, IStringProcessingService stringFilterService)
+        public MainWindowViewModel(IFileDialogService fileDialogService,
+                                   ITextFileParseService fileParseService,
+                                   IStringProcessingService stringFilterService)
         {
             _fileDialogService = fileDialogService;
             _fileParseService = fileParseService;
