@@ -89,7 +89,8 @@ namespace BigramParser.Services
                 // Otherwise, add an entry for the pair
                 if (wordPairCounts.TryGetValue(pair, out int value))
                 {
-                    wordPairCounts[pair] = ++value;
+                    // Prevent overflow exception
+                    wordPairCounts[pair] = Math.Min(++value, int.MaxValue);
                 }
                 else
                 {
@@ -98,16 +99,13 @@ namespace BigramParser.Services
             }
 
             // Convert dictionary to list of DTOs
-            var result = wordPairCounts.Select(pairData => new WordPairCountDTO
+            return [.. wordPairCounts.Select(pairData => new WordPairCountDTO
             {
                 Word1 = pairData.Key.Item1,
                 Word2 = pairData.Key.Item2,
                 Count = pairData.Value
             })
-                .OrderByDescending(dto => dto.Count)
-                .ToList();
-
-            return result;
+                .OrderByDescending(dto => dto.Count)];
         }
 
         #endregion
