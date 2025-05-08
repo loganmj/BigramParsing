@@ -47,7 +47,7 @@
                  Command="{Binding SubmitCommand}"/>
 
          <Border Style="{StaticResource BP_Component_Border_Style}"
-                 Visibility="{Binding ErrorMessageIsVisible, Converter={StaticResource BP_BooleanToVisiblityConverter}}">
+                 Visibility="{Binding ErrorMessageIsVisible, Converter={StaticResource BP_BooleanToVisibilityConverter}}">
             <TextBlock Style="{StaticResource BP_TextBlock_Style}">
                <Run Foreground="RED" Text="{Binding ErrorMessage}"/>
             </TextBlock>
