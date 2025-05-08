@@ -46,7 +46,14 @@
                  Content="Submit"
                  Command="{Binding SubmitCommand}"/>
 
-         <!-- Displays text received from the user -->
+         <Border Style="{StaticResource BP_Component_Border_Style}"
+                 Visibility="{Binding ErrorMessageIsVisible, Converter={StaticResource BP_BooleanToVisiblityConverter}}">
+            <TextBlock Style="{StaticResource BP_TextBlock_Style}">
+               <Run Foreground="RED" Text="{Binding ErrorMessage}"/>
+            </TextBlock>
+         </Border>
+         
+         <!-- Displays processed word pairs and their counts -->
          <Border Style="{StaticResource BP_Component_Border_Style}">
             <StackPanel>
                <Label Style="{StaticResource BP_Label_Style}">Output:</Label>
