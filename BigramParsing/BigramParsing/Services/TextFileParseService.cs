@@ -24,8 +24,14 @@ namespace BigramParser.Services
             {
                 return File.ReadAllText(filePath);
             }
-            catch
+            catch (IOException ex)
             {
+                Console.WriteLine($"An error occurred while reading the file: {ex.Message}");
+                return string.Empty;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An unexpected error occurred: {ex.Message}");
                 return string.Empty;
             }
         }
