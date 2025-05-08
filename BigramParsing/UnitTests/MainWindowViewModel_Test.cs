@@ -82,7 +82,7 @@ namespace UnitTests
         }
 
         /// <summary>
-        /// Tests that the output text is derived from the StringInput property when the string input type switch is set to true.
+        /// Tests that the Submit Command can handle an empty word pair list.
         /// </summary>
         [TestMethod]
         public void SubmitCommand_HandleEmptyList()
@@ -102,7 +102,7 @@ namespace UnitTests
         }
 
         /// <summary>
-        /// Tests that the output text is derived from the StringInput property when the string input type switch is set to true.
+        /// Tests the Submit Command with given parameters.
         /// </summary>
         [TestMethod]
         public void SubmitCommand_TestParams1()
@@ -131,7 +131,7 @@ namespace UnitTests
         }
 
         /// <summary>
-        /// Tests that the output text is correct given a specified set of parameters.
+        /// Tests the Submit Command with given parameters.
         /// </summary>
         [TestMethod]
         public void SubmitCommand_TestParams2()
