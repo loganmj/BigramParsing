@@ -7,7 +7,7 @@
    <Application.Resources>
       
       <!-- Converters -->
-      <converters:BooleanToVisibilityConverter x:Key="BP_BooleanToVisiblityConverter"/>
+      <converters:BooleanToVisibilityConverter x:Key="BP_BooleanToVisibilityConverter"/>
 
       <!-- Label style -->
       <Style x:Key="BP_Label_Style" TargetType="Label">
