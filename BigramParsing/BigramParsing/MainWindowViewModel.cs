@@ -86,14 +86,14 @@ namespace BigramParser
         /// </summary>
         /// <param name="fileDialogService"></param>
         /// <param name="fileParseService"></param>
-        /// <param name="stringFilterService"></param>
+        /// <param name="stringProcessingService"></param>
         public MainWindowViewModel(IFileDialogService fileDialogService,
                                    ITextFileParseService fileParseService,
-                                   IStringProcessingService stringFilterService)
+                                   IStringProcessingService stringProcessingService)
         {
             _fileDialogService = fileDialogService;
             _fileParseService = fileParseService;
-            _stringProcessingService = stringFilterService;
+            _stringProcessingService = stringProcessingService;
             Title = APP_TITLE;
             StringInputTypeSelected = true;
             StringInput = string.Empty;
