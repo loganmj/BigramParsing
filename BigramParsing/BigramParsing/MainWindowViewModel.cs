@@ -163,7 +163,7 @@ namespace BigramParser
         /// <summary>
         /// Displays an error message to the user.
         /// </summary>
-        /// <param name="message"></param>
+        /// <param name="message">The error message to display to the user.</param>
         private void DisplayError(string message)
         {
             if (string.IsNullOrEmpty(message))
