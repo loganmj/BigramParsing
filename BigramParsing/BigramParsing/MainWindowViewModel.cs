@@ -11,6 +11,7 @@ namespace BigramParser
     {
         #region Constants
 
+        private const string APP_TITLE = "Bigram Parser";
         private const string SELECTED_FILE_PATH_PLACEHOLDER_VALUE = "Select file";
         private const string SUPPORTED_FILE_TYPES_FILTER = "Text Files (*.txt)|*.txt|Markdown Files (*.md)|*.md|Text and Markdown Files (*.txt;*.md)|*.txt;*.md";
         private const string ERROR_MESSAGE_NO_FILE_PATH_SELECTED = "No file path selected.";
@@ -20,9 +21,9 @@ namespace BigramParser
 
         #region Fields
 
-        private IFileDialogService _fileDialogService;
-        private ITextFileParseService _fileParseService;
-        private IStringProcessingService _stringProcessingService;
+        private readonly IFileDialogService _fileDialogService;
+        private readonly ITextFileParseService _fileParseService;
+        private readonly IStringProcessingService _stringProcessingService;
 
         #endregion
 
@@ -85,12 +86,15 @@ namespace BigramParser
         /// </summary>
         /// <param name="fileDialogService"></param>
         /// <param name="fileParseService"></param>
-        public MainWindowViewModel(IFileDialogService fileDialogService, ITextFileParseService fileParseService, IStringProcessingService stringFilterService)
+        /// <param name="stringFilterService"></param>
+        public MainWindowViewModel(IFileDialogService fileDialogService,
+                                   ITextFileParseService fileParseService,
+                                   IStringProcessingService stringFilterService)
         {
             _fileDialogService = fileDialogService;
             _fileParseService = fileParseService;
             _stringProcessingService = stringFilterService;
-            Title = "Bigram Parser";
+            Title = APP_TITLE;
             StringInputTypeSelected = true;
             StringInput = string.Empty;
             FileInputTypeSelected = false;
