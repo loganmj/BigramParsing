@@ -23,7 +23,7 @@ namespace UnitTests
 
         #region Fields
 
-        IStringProcessingService _stringProcessingService;
+        StringProcessingService _stringProcessingService;
 
         #endregion
 
@@ -154,7 +154,7 @@ namespace UnitTests
         }
 
         /// <summary>
-        /// Tests that the RemoveNonAlphaCharacters() method can handle an empty string input.
+        /// Tests that the CreateWordPairDistribution() method can handle an empty string input.
         /// </summary>
         [TestMethod]
         public void CreateWordPairDistribution_NullInput()
@@ -168,7 +168,7 @@ namespace UnitTests
         }
 
         /// <summary>
-        /// Tests the RemoveNonAlphaCharacters() with a given input.
+        /// Tests the CreateWordPairDistribution() with a given input.
         /// </summary>
         [TestMethod]
         public void CreateWordPairDistribution_TestSimpleParams1()
@@ -191,7 +191,7 @@ namespace UnitTests
         }
 
         /// <summary>
-        /// Tests the RemoveNonAlphaCharacters() with a given input.
+        /// Tests the CreateWordPairDistribution() with a given input.
         /// </summary>
         [TestMethod]
         public void CreateWordPairDistribution_TestSimpleParams2()
@@ -235,7 +235,7 @@ namespace UnitTests
         }
 
         /// <summary>
-        /// Tests the RemoveNonAlphaCharacters() with a given input.
+        /// Tests the CreateWordPairDistribution() with a given input.
         /// </summary>
         [TestMethod]
         public void CreateWordPairDistribution_TestSimpleParams3()
@@ -265,7 +265,7 @@ namespace UnitTests
         }
 
         /// <summary>
-        /// Tests the RemoveNonAlphaCharacters() with a given input.
+        /// Tests the CreateWordPairDistribution() with a given input.
         /// </summary>
         [TestMethod]
         public void CreateWordPairDistribution_TestNumbers()
@@ -288,7 +288,7 @@ namespace UnitTests
         }
 
         /// <summary>
-        /// Tests the RemoveNonAlphaCharacters() with a given input.
+        /// Tests the CreateWordPairDistribution() with a given input.
         /// </summary>
         [TestMethod]
         public void CreateWordPairDistribution_TestQuotes()
@@ -353,7 +353,7 @@ namespace UnitTests
         }
 
         /// <summary>
-        /// Tests the RemoveNonAlphaCharacters() with a given input.
+        /// Tests the CreateWordPairDistribution() with a given input.
         /// </summary>
         [TestMethod]
         public void CreateWordPairDistribution_TestHyphens()
@@ -425,7 +425,7 @@ namespace UnitTests
         }
 
         /// <summary>
-        /// Tests the RemoveNonAlphaCharacters() with a given input.
+        /// Tests the CreateWordPairDistribution() with a given input.
         /// </summary>
         [TestMethod]
         public void CreateWordPairDistribution_TestMixed()
