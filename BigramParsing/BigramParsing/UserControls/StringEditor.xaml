@@ -7,9 +7,11 @@
              mc:Ignorable="d">
    <StackPanel HorizontalAlignment="Left">
       <Label Style="{StaticResource BP_Label_Style}">Enter Text:</Label>
-      <TextBox Style="{StaticResource BP_TextBox_Style}"
-               Width="450"
-               Height="300"
+      <ScrollViewer VerticalScrollBarVisibility="Auto"
+                    Width="450"
+                    Height="300">
+         <TextBox Style="{StaticResource BP_TextBox_Style}"
                Text="{Binding TextContent, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=TwoWay}"/>
+      </ScrollViewer>
    </StackPanel>
 </UserControl>
