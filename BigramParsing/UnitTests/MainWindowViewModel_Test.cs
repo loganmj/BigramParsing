@@ -47,15 +47,18 @@ namespace UnitTests
         [TestMethod]
         public void SelectFileCommand_FileDialogServiceReturnsEmptyString()
         {
+            var expected = "Select file";
+
             // Mock up the file dialog service to return an empty string from its SelectFile() method.
             var filePath = string.Empty;
             _mockFileDialogService.Setup(mock => mock.SelectFile(It.IsAny<string>())).Returns(filePath);
 
             // Execute SelectFileCommand
             _viewModel.SelectFileCommand.Execute(null);
+            var actual = _viewModel.SelectedFilePath;
 
             // Check that SelectedFilePath got updated correctly
-            Assert.AreEqual("Select file", _viewModel.SelectedFilePath);
+            Assert.AreEqual(expected, actual);
         }
 
         /// <summary>
@@ -64,19 +67,22 @@ namespace UnitTests
         [TestMethod]
         public void SelectFileCommand_SelectedFilePathUpdatedCorrectly()
         {
-            // Setup file dialog service to return the specified file path
             var filePath = "C:\\test.txt";
+            var expected = filePath;
+
+            // Setup file dialog service to return the specified file path
             _mockFileDialogService.Setup(mock => mock.SelectFile(It.IsAny<string>())).Returns(filePath);
 
             // Execute SelectFileCommand
             _viewModel.SelectFileCommand.Execute(null);
+            var actual = _viewModel.SelectedFilePath;
 
             // Check that SelectedFilePath got updated correctly
-            Assert.AreEqual(filePath, _viewModel.SelectedFilePath);
+            Assert.AreEqual(expected, actual);
         }
 
         /// <summary>
-        /// Tests that the output text is derived from the StringInput property when the string input type switch is set to true.
+        /// Tests that the Submit Command can handle an empty word pair list.
         /// </summary>
         [TestMethod]
         public void SubmitCommand_HandleEmptyList()
@@ -96,7 +102,7 @@ namespace UnitTests
         }
 
         /// <summary>
-        /// Tests that the output text is derived from the StringInput property when the string input type switch is set to true.
+        /// Tests the Submit Command with given parameters.
         /// </summary>
         [TestMethod]
         public void SubmitCommand_TestParams1()
@@ -125,7 +131,7 @@ namespace UnitTests
         }
 
         /// <summary>
-        /// Tests that the output text is correct given a specified set of parameters.
+        /// Tests the Submit Command with given parameters.
         /// </summary>
         [TestMethod]
         public void SubmitCommand_TestParams2()

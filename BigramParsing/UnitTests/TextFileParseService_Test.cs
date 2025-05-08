@@ -10,7 +10,7 @@ namespace UnitTests
     {
         #region Fields
 
-        private ITextFileParseService _textFileParseService;
+        private TextFileParseService _textFileParseService;
 
         #endregion
 
