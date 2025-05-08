@@ -15,12 +15,19 @@ namespace BigramParser.Services
             // Validate inputs
             if (!File.Exists(filePath))
             {
-                Console.WriteLine($"File does not exist at path {filePath}");
+                Console.WriteLine($"File does not exist at path '{filePath}'.");
                 return string.Empty;
             }
 
             // Parse the file
-            return File.ReadAllText(filePath);
+            try
+            {
+                return File.ReadAllText(filePath);
+            }
+            catch
+            {
+                return string.Empty;
+            }
         }
 
         #endregion

@@ -11,17 +11,19 @@ namespace BigramParser
     {
         #region Constants
 
+        private const string APP_TITLE = "Bigram Parser";
         private const string SELECTED_FILE_PATH_PLACEHOLDER_VALUE = "Select file";
         private const string SUPPORTED_FILE_TYPES_FILTER = "Text Files (*.txt)|*.txt|Markdown Files (*.md)|*.md|Text and Markdown Files (*.txt;*.md)|*.txt;*.md";
-        private const string OUTPUT_TEXT_NO_WORD_PAIRS_FOUND_MESSAGE = "No word pairs found.";
+        private const string ERROR_MESSAGE_NO_FILE_PATH_SELECTED = "No file path selected.";
+        private const string ERROR_MESSAGE_NO_WORD_PAIRS_FOUND = "No word pairs found.";
 
         #endregion
 
         #region Fields
 
-        private IFileDialogService _fileDialogService;
-        private ITextFileParseService _fileParseService;
-        private IStringProcessingService _stringProcessingService;
+        private readonly IFileDialogService _fileDialogService;
+        private readonly ITextFileParseService _fileParseService;
+        private readonly IStringProcessingService _stringProcessingService;
 
         #endregion
 
@@ -63,6 +65,18 @@ namespace BigramParser
         [ObservableProperty]
         private string _outputText;
 
+        /// <summary>
+        /// Error message to display to user.
+        /// </summary>
+        [ObservableProperty]
+        private string _errorMessage;
+
+        /// <summary>
+        /// Is the error message visible
+        /// </summary>
+        [ObservableProperty]
+        private bool _errorMessageIsVisible;
+
         #endregion
 
         #region Constructors
@@ -72,19 +86,22 @@ namespace BigramParser
         /// </summary>
         /// <param name="fileDialogService"></param>
         /// <param name="fileParseService"></param>
+        /// <param name="stringProcessingService"></param>
         public MainWindowViewModel(IFileDialogService fileDialogService,
                                    ITextFileParseService fileParseService,
-                                   IStringProcessingService stringFilterService)
+                                   IStringProcessingService stringProcessingService)
         {
             _fileDialogService = fileDialogService;
             _fileParseService = fileParseService;
-            _stringProcessingService = stringFilterService;
-            Title = "Bigram Parser";
+            _stringProcessingService = stringProcessingService;
+            Title = APP_TITLE;
             StringInputTypeSelected = true;
             StringInput = string.Empty;
             FileInputTypeSelected = false;
             SelectedFilePath = SELECTED_FILE_PATH_PLACEHOLDER_VALUE;
             OutputText = string.Empty;
+            ErrorMessage = string.Empty;
+            ErrorMessageIsVisible = false;
         }
 
         #endregion
@@ -104,10 +121,12 @@ namespace BigramParser
             // Otherwise, get the file path
             if (string.IsNullOrEmpty(filePath))
             {
+                DisplayError(ERROR_MESSAGE_NO_FILE_PATH_SELECTED);
                 SelectedFilePath = SELECTED_FILE_PATH_PLACEHOLDER_VALUE;
             }
             else
             {
+                ClearError();
                 SelectedFilePath = filePath;
             }
         }
@@ -136,11 +155,37 @@ namespace BigramParser
             // Output the word pairs
             if (wordPairsList == null || wordPairsList.Count <= 0)
             {
-                OutputText = OUTPUT_TEXT_NO_WORD_PAIRS_FOUND_MESSAGE;
+                DisplayError(ERROR_MESSAGE_NO_WORD_PAIRS_FOUND);
+                OutputText = string.Empty;
                 return;
             }
 
+            ClearError();
             OutputText = string.Join('\n', wordPairsList);
+        }
+
+        /// <summary>
+        /// Displays an error message to the user.
+        /// </summary>
+        /// <param name="message">The error message to display to the user.</param>
+        private void DisplayError(string message)
+        {
+            if (string.IsNullOrEmpty(message))
+            {
+                return;
+            }
+
+            ErrorMessage = message;
+            ErrorMessageIsVisible = true;
+        }
+
+        /// <summary>
+        /// Clears the error message.
+        /// </summary>
+        private void ClearError()
+        {
+            ErrorMessage = string.Empty;
+            ErrorMessageIsVisible = false;
         }
 
         #endregion
