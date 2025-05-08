@@ -2,7 +2,7 @@
 
 ## 📘 Project Overview
 
-**BigramParsing** is a WPF desktop application written in C# that parses a block of text into bigrams—pairs of consecutive words—and displays a histogram of their frequencies. This project was developed as a coding exercise for a technical interview, showcasing skills in C#, WPF, and basic natural language processing.
+**BigramParsing** is a WPF desktop application written in C# that parses a block of text into bigrams—pairs of consecutive words—and displays a histogram of their frequencies.
 
 ---
 
